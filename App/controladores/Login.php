@@ -39,4 +39,43 @@
             redireccionar('/');
         }
 
+        public function recuperarPass(){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                //funcion para generar contraseña aleatoria
+                // echo "hola";exit();
+                $cadena = "abcdefghijklmnopqrstxwyz0123456789";
+                $longitudCadena=strlen($cadena);
+                $pass = "";
+                $longitudPass=6;
+    
+                    for($i=1 ; $i<=$longitudPass ; $i++){
+                        $pos=rand(0,$longitudCadena-1);
+                        $pass .= substr($cadena,$pos,1);
+                    }
+    
+                $passCifrada = password_hash($pass, PASSWORD_BCRYPT);
+    
+                $to = $_POST['emailRec'];
+                //$email = "javierlegua14@gmail.com";
+                //$to = "javierlegua14@gmail.com";
+                $nombreTo = "Socio";
+                $asunto = "Recuperación contraseña";
+                $cuerpo = "Su contraseña temporal es: $pass";
+                // echo "hola";exit();
+                $respuesta = EnviarEmail::sendEmail($to,$nombreTo,$asunto,$cuerpo); //VOY POR AQUI
+    
+                if ($respuesta == '1') {
+                    $this->usuarioModelo->recuperarPass($to, $passCifrada);
+                    redireccionar("/");
+                }else{
+                    echo "No se ha podido enviar el mensaje. Error: $respuesta";
+                }
+    
+            }else{
+                 redireccionar('/');
+            }
+        }
+
+
     }

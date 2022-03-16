@@ -2,16 +2,16 @@
  ?>
 
 
-<h1>Tests</h1>
-  <div class="container">
+<h1>Alumnos Grupo</h1>
+  
     <div class="row">
       <?php
-      print_r ($datos["tests"]);
-          foreach ($datos["tests"] as $test) { ?>
+      //print_r ($datos["tests"]);
+          foreach ($datos["tests"] as $uruario) { ?>
           
-              <div class="col-3 border primary rounded-1 m-1"><?php echo $test->Nombre?>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn  btn-block editUruario"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="usuarios_tests(<?php echo $test->id_test; ?>)" >
+              <div class="col-3 col-lg-2 border primary rounded-1 m-1"><?php echo $uruario->nombre." ".$uruario->apellido ?>
+
+                <button type="button" class="btn  btn-block editUruario"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="usuarios_tests(<?php echo $uruario->id_user?>,<?php echo $datos['grupo'] ?> )" >
                   <i class="bi bi-eye-fill"></i>
                 </button> 
               </div>
@@ -19,7 +19,7 @@
 
       <?php } ?>
     </div>
-  </div>
+ 
 
 
 
@@ -33,14 +33,12 @@
         <h5 class="modal-title" id="ModalTitler">404 Harran Not Found</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" id="contenidoModalGrupo">
+      <div class="modal-body row" id="contenidoModalGrupo">
 
-        
-        
 
 
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="modal_footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
@@ -49,13 +47,18 @@
 
 
 <script>
-    async function usuarios_tests(id_test){
+    async function usuarios_tests(id_user,id_gru){
         var titler=document.getElementById("ModalTitler")
         var content=document.getElementById("contenidoModalGrupo")
-        titler.innerHTML=id_test
-        console.log(id_test)
+        var footer=document.getElementById("modal_footer")
+        titler.innerHTML="Pruebas "
+        console.log(id_user)
 
-        var enlace="<?php echo RUTA_URL?>/pruebas/obtener_socios_test/"+id_test;
+        content.innerHTML="";
+
+
+        
+        var enlace="<?php echo RUTA_URL?>/pruebas/obtener_socios_test/"+id_user;
         var nomP="users";
         
         
@@ -66,12 +69,28 @@
             .then(data => nomP = data)
             .catch( err => console.error(err));
 
-            console.log(nomP)
+            //console.log(nomP)
+      
+      titler.innerHTML+=nomP[0].nombre+" "+nomP[0].apellido
 
-      nomP.forEach(objekt => {
-        titler.innerHTML=objekt.nom_test
-        content.innerHTML=objekt.nombre+" "+objekt.apellido+"->"+objekt.nombr_prueba+"--"+objekt.marca+"boton"
-      });
+      if (nomP[1].length != 0) {
+        nomP[1].forEach(objekt => {
+          var unidades
+          console.log(nomP);
+          if (objekt.unidades == "tiempo") {
+            unidades=" s"
+          } else {
+            unidades=" m"
+          }
+          
+          content.innerHTML+="<div class='col-6'><label for='nombre_Borrar'>Prueba:</label><input type='text' name='nombre_Borrar' id='nombre_Borrar' class='form-control form-control-lg' value='"+objekt.nombr_prueba+"' readonly></div>"
+          content.innerHTML+="<div class='col-6'><label for='nombre_Borrar'>Marca:</label><input type='text' name='nombre_Borrar' id='nombre_Borrar' class='form-control form-control-lg' value='"+objekt.marca+unidades+"' readonly></div>"
+        });
+      } else {
+        content.innerHTML="No se han encontrado pruebas recientes"
+      }
+      footer.innerHTML="<a href=\"<?php echo RUTA_URL?>/pruebas/prueba_nueva/"+id_user+"/"+id_gru+"\" class=\"btn btn-primary\"  >Test Nuevo</a>      <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Cerrar</button> <a href=\"/pruebas/mostrar_prueba/"+id_user+"\" class=\"btn btn-success\"   >Mostrar Todos Los Tests  </a> "
+
 
 
 

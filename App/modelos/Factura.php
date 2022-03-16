@@ -7,7 +7,28 @@
             $this->db = new Base;
         }
 
+        public function getLastId(){
+            $this->db->query("SELECT max(id_ingreso_cuota) as id_cuota FROM I_cuotas");            
+            return $this->db->registro();
+        }
 
+        public function insertCuota($id_ingreso_cuota,$id_socio,$Fecha,$Concepto,$Importe,$Tipo){
+            $this->db->query("INSERT INTO I_cuotas (id_ingreso_cuota, id_socio, Fecha, Concepto, Importe, Tipo) 
+            VALUES (:id_ingreso_cuota, :id_socio, :Fecha, :Concepto, :Importe, :Tipo)");
+
+            $this->db->bind(':id_ingreso_cuota',$id_ingreso_cuota);
+            $this->db->bind(':id_socio',$id_socio);
+            $this->db->bind(':Fecha',$Fecha);
+            $this->db->bind(':Concepto',$Concepto);
+            $this->db->bind(':Importe',$Importe);
+            $this->db->bind(':Tipo',$Tipo);
+            
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
         
 
 ///////////////////////////////////////////////// Sesion //////////////////////////////////////////////

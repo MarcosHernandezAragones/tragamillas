@@ -2,7 +2,7 @@
 
 <a href=".." class="btn btn-light"><i class="bi bi-chevron-double-left"></i>Volver</a>
 
-<div class="container">
+<div class="row">
 
   <div class="row d-flex flex-row justify-content-center">
     <div class="jumbotron col-1">
@@ -10,24 +10,85 @@
     </div> 
   </div>
 
+
+
   <div class="row d-flex flex-row justify-content-center">
-    <form method="post" class="col-6">
-      <div class="form-floating mb-3">
+    <form method="post" class="col-9 col-lg-6">
+
+
+      <div class="form-floating mb-3 ">
         <input type="email" name="email" class="form-control" id="floatingInput" placeholder="" required>
-        <label for="floatingInput">Email address</label>
-        
-      </div>
-      <div class="form-floating mb-3">
-        <input type="password" name="pass" class="form-control" id="floatingInputPass" placeholder="" required>
-        <label for="floatingInputPass">nombre(sustituto de Pass)</label>
+        <label for="floatingInput">Email</label>
       </div>
 
-      <input type="submit" class="btn btn-success" value="Login">
+
+      <div class="form-floating mb-3">
+        <input type="password" name="pass" class="form-control" id="floatingInputPass" placeholder="" required>
+        <label for="floatingInputPass">Contraseña/DNI</label>
+      </div>
+
+      <div class=" col-12 d-lg-flex flex-row justify-content-between">
+
+        <input type="submit" class="btn col-12 col-lg-3 btn-success" value="Login">
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="col-12 col-lg-6" style=" text-align: right; cursor:pointer;">Recuperar contraseña</a>
+
+      </div>
+
+
+      <div class=" col-12 flex-row float-right" style=" text-align: right; margin-top: -4vh;">
+        
+      </div>
 
     </form>
   </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="ModalTitler" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="ModalTitler">Recuperar Contraseña</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="contenidoModalUsuario">
+            <form method="post" class="card-body" id="form">
+                <div class="mb-2">
+                    <label for="dni">Email <sup>*</sup></label>
+                    <input type="text" name="email" id="email" class="form-control form-control-lg">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal" onclick="recuperar_pass()">Enviar</button>
+        </div>
+        </div>
+    </div>
+</div>
     
-  
+  <script>
+    async function recuperar_pass(){
+      data = new FormData(document.getElementById('form'));
+
+      await fetch('/Login/recuperarPass', {
+          method: "POST",
+          body: data,
+      })
+      .then((resp) => resp.json())
+      .then(function(data) {
+          console.log(data)
+
+          if (Boolean(data)){
+            alert('Revisa tu correo')
+          } else {
+            alert('Error al enviar la nueva contraseña')
+          }
+      })
+    }
+  </script>
+
+
+
+
 
   <?php if (isset($datos['error']) && $datos['error'] == 'error_1' ): ?>
 

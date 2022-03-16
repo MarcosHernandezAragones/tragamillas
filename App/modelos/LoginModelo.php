@@ -9,9 +9,11 @@
 
 
         public function loginEmail($email,$pass){
-            $this->db->query("SELECT * FROM User WHERE email = :email and pass = :pass");
+            $this->db->query("SELECT * FROM User WHERE email = :email and pass = CONCAT('*', UPPER(SHA1(UNHEX(SHA1(:pass)))))");
             $this->db->bind(':email',$email);
             $this->db->bind(':pass',$pass);
+            
+
             return $this->db->registro();
         }
 

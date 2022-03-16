@@ -1,6 +1,6 @@
 <?php
 
-    class Entrenadores extends Usuarios{
+    class Entrenadores extends Controlador{
 
         public function __construct(){
             Sesion::iniciarSesion($this->datos);
@@ -11,7 +11,7 @@
             }
 
             //$this->usuarioModelo = $this->modelo('Usuario');
-            //$this->equipacionModelo = $this->modelo('Equipacion');
+            $this->entrenadorModelo= $this->modelo('Entrenador');
             
 
             //$this->datos['menuActivo'] = 1;         // Definimos el menu que sera destacado en la vista
@@ -29,9 +29,11 @@
 
 
         //Funcion para ver los grupos en los que trabajo
-        public function verGrupos($idEntrenador){
-            
-        }
+      public function verGrupos(){
+            $id_usu=$_POST["id_user"];
+            $grupos=$this->entrenadorModelo->obtenerGruposEntrendor($id_usu);
+            $this->vistaApi($grupos);
+      }
 
 
 

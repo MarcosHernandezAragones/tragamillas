@@ -1,7 +1,7 @@
 <?php require_once RUTA_APP.'/vistas/inc/header.php';
  ?>
-
-<table class="table" id="tabla_solicitudes">
+ <div class="table-responsive">
+ <table class="table" id="tabla_solicitudes">
     <thead>
                 <tr>
                     <th>Nombre</th>
@@ -20,6 +20,9 @@
 
     </tbody>
 </table>
+
+ </div>
+
 
 
 

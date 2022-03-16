@@ -13,8 +13,44 @@
             return $this->db->registros();
         }
         
+        public function obtener_last_id(){
+            $this->db->query("SELECT max(id_grupo) as last_id FROM Grupo");
+
+            return $this->db->registro();
+        }
+
+        public function insert_grupo($id_gru,$nom_gru){
+            $this->db->query("INSERT INTO Grupo (id_grupo, nombre) 
+                                        VALUES (:id_gru,:nom_gru)");
+
+            $this->db->bind(':id_gru',$id_gru);
+            $this->db->bind(':nom_gru',$nom_gru);
 
 
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+
+        }
+
+        public function edit_grupo($id_gru,$nom_gru){
+            $this->db->query("UPDATE Grupo SET nombre=:nom_gru WHERE id_grupo = :id_gru");
+
+            $this->db->bind(':id_gru',$id_gru);
+            $this->db->bind(':nom_gru',$nom_gru);
+
+
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+
+        }
 
         public function obtenerAlumnosGrupo($id_gru){
            
@@ -27,11 +63,20 @@
             return $this->db->registros();
         }
 
+        public function obtenerAlumno($id_user){
+           
+            $this->db->query("SELECT * from User
+                                WHERE User.id_user =:id_user");//alumno seleccionado
+            $this->db->bind(':id_user',$id_user);
+
+            return $this->db->registros();
+        }
 
 
 
 
 
+       
 
 
 

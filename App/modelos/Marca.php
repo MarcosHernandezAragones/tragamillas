@@ -8,7 +8,7 @@
         }
 
         public function obtenerMarcasId($id){
-            $this->db->query("SELECT * FROM prueba_socio where id_socio=:id");
+            $this->db->query("SELECT * FROM prueba_socio where id_socio=:id ORDER BY Id_prueba DESC LIMIT 5");
             $this->db->bind(':id',$id);
             return $this->db->registros();
         }

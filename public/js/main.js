@@ -201,7 +201,7 @@ function valid_cif(cif){
 */
 function comprobar_dni(elementor) {
     var dni_comp=elementor.value.toUpperCase();
-    
+    dni_comp.trim();
 
     let regex_dni=/[0-9]{8}[A-Z]{1}/;
     let regex_nie=/[X-Z]{1}[0-9]{7}[A-Z]{1}/;
@@ -237,6 +237,7 @@ function comprobar_dni(elementor) {
 
 function comprobar_nombres(elementor){
     var nom_comp=elementor.value;
+    nom_comp.trim();
 
     let regex_nom=/^[A-Za-z\s]+$/
     
@@ -253,6 +254,7 @@ function comprobar_fecha(elementor){
 
 function comprobar_telefono(elementor) {
     var telef_comp=elementor.value;
+    telef_comp.trim();
 
     let regex_telef=/[+]?[0-9]{9,}/
 
@@ -280,6 +282,7 @@ function getnumIBAN(letra) {
 
 function validarIBAN(elementor) {
     var IBAN = elementor.value
+    IBAN.trim()
     //Se pasa a Mayusculas
     IBAN = IBAN.toUpperCase();
     //Se quita los blancos de principio y final.
